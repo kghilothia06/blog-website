@@ -13,6 +13,7 @@
     "no_of_posts" : 5,
     "blog_name" : "Code your way out",
     "admin_user" : "kush",
-    "admin_password" : "happyschool"
+    "admin_password" : "happyschool",
+    "upload_location" : "C:\\Users\\KUSH\\Desktop\\flask-tutorial\\static"
   }
 }
