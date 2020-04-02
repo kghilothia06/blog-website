@@ -11,4 +11,4 @@ logout feature added
 
 file uploader added
 
-pagination is next!
+pagination added
