@@ -10,6 +10,7 @@ from flask_mail import Mail
 from werkzeug import secure_filename
 import json
 import os
+import math
 from datetime import datetime
 
 #reading json file
@@ -56,8 +57,30 @@ class Posts(db.Model):
     
 @app.route("/")
 def home():
-    posts = Posts.query.filter_by().all()[0:params['no_of_posts']]
-    return render_template("index.html" , params=params , posts=posts)
+    posts = Posts.query.filter_by().all()
+    #[0:params['no_of_posts']]
+    last = math.ceil(len(posts)/int(params['no_of_posts']))
+    #pagination logic
+    page = request.args.get('page')
+    if(not str(page).isnumeric()):
+        page=1
+    page=int(page)
+    posts = posts[(page-1)*int(params['no_of_posts']) : (page-1)*int(params['no_of_posts']) + int(params['no_of_posts'])]
+    
+    #first page
+    if(page==1):
+        prev= "#"
+        Next = "/?page=" + str(page+1)
+    #last page
+    elif(page==last):
+        prev = "/?page=" + str(page-1)
+        Next = "#"
+    #Any in between page    
+    else:
+        prev = "/?page=" + str(page-1)
+        Next = "/?page=" + str(page+1)
+        
+    return render_template("index.html" , params=params , posts=posts ,prev=prev , Next=Next)
 
 @app.route("/about")
 def about():
